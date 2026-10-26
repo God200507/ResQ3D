@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ResQ3D Camera AI Verification</title><link rel="stylesheet" href="./camera_control.css"></head>
+<body><header><div><b>ResQ3D</b><small>AI CAMERA VERIFICATION CENTER</small></div><span>CONTROL ROOM</span></header>
+<main>
+<section class="hero"><div><p class="eyebrow">📷 CAMERA → 🧠 AI → 🚨 RESPONSE</p><h1>Verify a sensor alert before notifying firefighters.</h1><p>Upload a camera snapshot from the detected room. The current MVP vision engine checks the image, and only a positive verification creates the firefighter emergency incident.</p></div><div class="flow">SENSOR ALERT → CAMERA → AI VERIFY → EMAIL → 3D TWIN</div></section>
+<section class="grid">
+<div class="card"><h2>1. Incident Location</h2><label>Camera</label><select id="camera"></select><label>Floor</label><select id="floor"><option value="0">Ground</option><option value="1">First</option><option value="2" selected>Second</option><option value="3">Third</option><option value="4">Fourth</option></select><label>Room</label><input id="room" value="F2_LAB_01"><label>Firefighter email (optional)</label><input id="recipient" placeholder="firefighter@example.com"><label>Public portal URL (optional)</label><input id="publicUrl" placeholder="https://your-server/emergency.html"></div>
+<div class="card"><h2>2. Camera Snapshot</h2><input id="image" type="file" accept="image/*"><div id="preview" class="preview">No snapshot selected.</div><button id="verify">🧠 VERIFY CAMERA + CREATE ALERT</button><div id="result" class="result">Waiting for camera evidence.</div></div>
+</section>
+<section class="card"><h2>3. Result</h2><pre id="json">No incident yet.</pre><a id="portal" class="portal" target="_blank" hidden>OPEN FIREFIGHTER EMERGENCY PORTAL</a></section>
+</main><script type="module" src="./js/camera_control.js"></script></body></html>

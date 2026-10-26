@@ -1,0 +1,9 @@
+[
+  {"camera_id":"CAM-G-01","name":"Ground Entrance","floor":0,"room":"GROUND_SECURITY","stream_url":"","status":"ONLINE"},
+  {"camera_id":"CAM-F1-01","name":"First Floor Corridor","floor":1,"room":"F1_LAB_01","stream_url":"","status":"ONLINE"},
+  {"camera_id":"CAM-F2-01","name":"Floor 2 Laboratory","floor":2,"room":"F2_LAB_01","stream_url":"","status":"ONLINE"},
+  {"camera_id":"CAM-F2-02","name":"Floor 2 Corridor","floor":2,"room":"F2_LAB_01","stream_url":"","status":"ONLINE"},
+  {"camera_id":"CAM-F3-01","name":"IoT Lab","floor":3,"room":"F3_IOT_LAB","stream_url":"","status":"ONLINE"},
+  {"camera_id":"CAM-F4-01","name":"Research Lab","floor":4,"room":"F4_PROJECT_LAB","stream_url":"","status":"ONLINE"},
+  {"camera_id":"CAM-ST-B","name":"Emergency Stair B","floor":2,"room":"STAIR_B","stream_url":"","status":"ONLINE"}
+]

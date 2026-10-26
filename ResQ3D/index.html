@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ResQ3D · 3D Digital Twin — Institutional Building</title>
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div id="app">
+  <div id="emergencyHUD">
+    <div class="ehud-main"><span class="ehud-title">🚨 EMERGENCY MODE</span><span class="ehud-location" id="ehudLocation">Waiting...</span></div>
+    <div class="ehud-grid">
+      <div><span>RISK</span><b id="ehudRisk" class="critical">---</b></div>
+      <div><span>SAFE STAIR</span><b id="ehudStair" class="safe">---</b></div>
+      <div><span>PEOPLE</span><b id="ehudPeople">0 / 0</b></div>
+      <div><span>STATUS</span><b id="ehudStatus">ACTIVE</b></div>
+    </div>
+  </div>
+  <div id="utilityMenu">
+    <div class="utility-title">PROJECT TOOLS</div>
+    <button class="utility-btn" data-panel="commandPanel">🚨 Command Center</button>
+    <button class="utility-btn" data-panel="analyticsPanel">📊 Analytics</button>
+    <button class="utility-btn" data-panel="opsPanel">📄 Reports</button>
+  </div>
+  <div id="topbar">
+    <div id="brand">
+      <div class="logo">RQ</div>
+      <div>
+        <h1>ResQ<span>3D</span> Digital Twin</h1>
+        <p>Institutional Building · 5 Levels</p>
+      </div>
+    </div>
+    <div id="topActions">
+      <button class="top-action" type="button" id="btnTools">☰ Tools</button>
+      <button class="top-action" type="button" id="btnDemo">🚨 Demo Fire</button>
+      <button class="top-action firefighter-btn" type="button" id="btnFirefighter" hidden>🚒 Firefighter Dashboard</button>
+    </div>
+    <div id="statusChip"><span class="dot"></span><span id="statusText">SYSTEM ONLINE</span></div>
+  </div>
+
+  <div id="leftPanel">
+    <div class="sec-title">Floor Navigation</div>
+    <div id="floorList"></div>
+    <div class="sec-title">Layers</div>
+    <div class="toggle on" data-layer="safety"><span>Safety Equipment</span><div class="switch"></div></div>
+    <div class="toggle on" data-layer="exterior"><span>Exterior & Site</span><div class="switch"></div></div>
+    <div class="toggle" data-layer="structure"><span>X-Ray Structure</span><div class="switch"></div></div>
+    <div class="sec-title">Emergency Simulation</div>
+    <div class="em-form">
+      <label>Fire Floor<select id="emergencyFloor"></select></label>
+      <label>Fire Room<select id="emergencyRoom"></select></label>
+      <label>Severity<select id="emergencySeverity"><option value="AUTO">Auto analysis</option><option value="LOW">Low</option><option value="MEDIUM">Medium</option><option value="HIGH">High</option></select></label>
+      <button class="action-btn danger" type="button" id="btnStartEmergency">🔥 Start Emergency</button>
+    </div>
+    <button class="action-btn" type="button" id="btnFire">🎲 Random Fire</button>
+    <button class="action-btn green" type="button" id="btnEvac">🏃 Show Safe Route</button>
+    <button class="action-btn" type="button" id="btnClear">✖ Clear Simulation</button>
+    <div id="emergencyInfo" class="emergency-info"></div>
+  </div>
+
+  <div id="rightPanel">
+    <button id="rpClose">✕</button>
+    <div id="rpTag" class="rp-tag"></div>
+    <div id="rpTitle"></div>
+    <div id="rpId"></div>
+    <div id="rpBody"></div>
+  </div>
+
+  <div id="legend">
+    <div class="lg"><i style="background:#4a90d9"></i>Classroom</div>
+    <div class="lg"><i style="background:#27ae60"></i>Laboratory</div>
+    <div class="lg"><i style="background:#e67e22"></i>Faculty</div>
+    <div class="lg"><i style="background:#9b59b6"></i>Office</div>
+    <div class="lg"><i style="background:#e74c3c"></i>Seminar</div>
+    <div class="lg"><i style="background:#1abc9c"></i>Washroom</div>
+    <div class="lg"><i style="background:#f1c40f"></i>Common</div>
+    <div class="lg"><i style="background:#95a5a6"></i>Stairs / Core</div>
+  </div>
+
+  <div id="hint"><b>Drag</b> rotate · <b>Scroll</b> zoom · <b>Click</b> a room</div>
+  <div id="tooltip"></div>
+  <div id="loader"><div class="ldr-inner"><div class="ldr-ring"></div><p>Building Digital Twin…</p></div></div>
+  <div id="errorBox"></div>
+</div>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module" src="./js/iot.js?v=20260928"></script>
+<script type="module" src="./js/phase6_multisensor.js?v=20260928"></script>
+<script type="module" src="./js/phase7_dashboard.js?v=20260928"></script>
+<script type="module" src="./js/phase9_analytics.js?v=20260928"></script>
+<script type="module" src="./js/phase10_reports.js?v=20260928"></script>
+<script type="module" src="./js/main.js?v=20260929"></script>
+<script type="module" src="./js/ui_upgrade.js?v=20260929"></script>
+<script type="module" src="./js/phase12_emergency.js?v=20260930"></script>
+</body>
+</html>

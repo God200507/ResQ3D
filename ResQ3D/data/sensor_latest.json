@@ -1,0 +1,12 @@
+{
+  "device_id": "TINKERCAD-UNO-01",
+  "sensor_id": "SENSOR-F2-LAB",
+  "gas_value": 85,
+  "temperature": 24.78,
+  "gas_detected": false,
+  "high_temperature": false,
+  "fire_emergency": false,
+  "floor": 2,
+  "room": "F2_LAB_01",
+  "timestamp": null
+}

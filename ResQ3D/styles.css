@@ -1,0 +1,270 @@
+:root{
+    --cyan:#00d4ff; --cyan-dim:#0a8fb5; --bg:#070c14;
+    --panel:rgba(10,18,30,0.82); --stroke:rgba(0,212,255,0.28);
+    --text:#dbe9f5; --muted:#7d94ab; --danger:#ff4b4b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
+    font-family:'Inter','Segoe UI',system-ui,sans-serif;color:var(--text);}
+  canvas{display:block;}
+  #app{position:fixed;inset:0;}
+
+  #topbar{position:absolute;top:0;left:0;right:0;height:58px;z-index:30;
+    display:flex;align-items:center;gap:16px;padding:0 20px;
+    background:linear-gradient(180deg,rgba(6,12,20,0.95),rgba(6,12,20,0));
+    pointer-events:none;}
+  #brand{display:flex;align-items:center;gap:12px;pointer-events:auto;}
+  #brand .logo{width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(135deg,var(--cyan),#0066ff);
+    display:grid;place-items:center;font-weight:800;font-size:15px;color:#02121c;
+    box-shadow:0 0 22px rgba(0,212,255,0.55);}
+  #brand h1{font-size:16px;font-weight:700;letter-spacing:0.6px;}
+  #brand h1 span{color:var(--cyan);}
+  #brand p{font-size:10.5px;color:var(--muted);letter-spacing:1.6px;text-transform:uppercase;}
+
+  #statusChip{margin-left:auto;pointer-events:auto;
+    display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:20px;
+    background:var(--panel);border:1px solid var(--stroke);
+    font-size:11px;letter-spacing:1px;color:var(--cyan);backdrop-filter:blur(10px);}
+  .dot{width:7px;height:7px;border-radius:50%;background:#00ff9d;
+    box-shadow:0 0 10px #00ff9d;animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+  #leftPanel{position:absolute;top:74px;left:18px;width:232px;z-index:25;
+    background:var(--panel);border:1px solid var(--stroke);border-radius:14px;
+    backdrop-filter:blur(14px);padding:14px;max-height:calc(100vh - 160px);
+    overflow-y:auto;}
+  #leftPanel::-webkit-scrollbar{width:5px}
+  #leftPanel::-webkit-scrollbar-thumb{background:var(--cyan-dim);border-radius:3px}
+  .sec-title{font-size:10px;letter-spacing:2px;color:var(--muted);
+    text-transform:uppercase;margin:4px 0 9px;font-weight:600;}
+  .sec-title:not(:first-child){margin-top:18px;}
+
+  .floor-btn{display:flex;align-items:center;gap:10px;width:100%;
+    padding:9px 11px;margin-bottom:6px;border-radius:9px;cursor:pointer;
+    background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.07);
+    color:var(--text);font-size:12.5px;font-family:inherit;
+    transition:all .18s;text-align:left;}
+  .floor-btn:hover{background:rgba(0,212,255,0.12);border-color:var(--stroke);}
+  .floor-btn.active{background:linear-gradient(90deg,rgba(0,212,255,0.25),rgba(0,212,255,0.05));
+    border-color:var(--cyan);color:#fff;box-shadow:0 0 16px rgba(0,212,255,0.22);}
+  .floor-btn .badge{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;
+    background:rgba(0,212,255,0.14);font-size:11px;font-weight:700;color:var(--cyan);flex-shrink:0;}
+  .floor-btn.active .badge{background:var(--cyan);color:#04121c;}
+
+  .toggle{display:flex;align-items:center;justify-content:space-between;
+    padding:7px 4px;font-size:12px;color:var(--text);cursor:pointer;}
+  .switch{width:34px;height:19px;border-radius:10px;background:rgba(255,255,255,0.12);
+    position:relative;transition:.22s;flex-shrink:0;}
+  .switch::after{content:'';position:absolute;top:2.5px;left:2.5px;width:14px;height:14px;
+    border-radius:50%;background:#8ba3b8;transition:.22s;}
+  .toggle.on .switch{background:var(--cyan);}
+  .toggle.on .switch::after{left:17.5px;background:#04121c;}
+
+  .action-btn{width:100%;padding:10px;border-radius:9px;margin-top:7px;cursor:pointer;
+    font-family:inherit;font-size:12px;font-weight:600;letter-spacing:0.4px;
+    border:1px solid var(--stroke);background:rgba(0,212,255,0.09);color:var(--cyan);transition:.18s;}
+  .action-btn:hover{background:rgba(0,212,255,0.22);}
+  .action-btn.danger{border-color:rgba(255,75,75,0.5);color:#ff8080;background:rgba(255,75,75,0.1);}
+  .action-btn.danger:hover{background:rgba(255,75,75,0.25);}
+  .action-btn.green{border-color:rgba(0,255,157,0.45);color:#4dffb8;background:rgba(0,255,157,0.09);}
+  .action-btn.green:hover{background:rgba(0,255,157,0.2);}
+
+  #rightPanel{position:absolute;top:74px;right:18px;width:280px;z-index:25;
+    background:var(--panel);border:1px solid var(--stroke);border-radius:14px;
+    backdrop-filter:blur(14px);padding:16px;
+    transform:translateX(320px);opacity:0;transition:.35s cubic-bezier(.4,0,.2,1);
+    max-height:calc(100vh - 160px);overflow-y:auto;}
+  #rightPanel.show{transform:translateX(0);opacity:1;}
+  #rpClose{position:absolute;top:12px;right:12px;width:24px;height:24px;border-radius:7px;
+    display:grid;place-items:center;cursor:pointer;color:var(--muted);
+    background:rgba(255,255,255,0.06);font-size:15px;border:none;font-family:inherit;}
+  #rpClose:hover{background:rgba(255,75,75,0.25);color:#fff;}
+  #rpTitle{font-size:15.5px;font-weight:700;margin-bottom:3px;padding-right:26px;line-height:1.3;}
+  #rpId{font-size:10.5px;color:var(--cyan);letter-spacing:1.4px;margin-bottom:14px;}
+  .rp-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;
+    border-bottom:1px solid rgba(255,255,255,0.06);font-size:12px;}
+  .rp-row .k{color:var(--muted);}
+  .rp-row .v{color:#fff;font-weight:600;text-align:right;}
+  .rp-tag{display:inline-block;padding:4px 11px;border-radius:20px;font-size:10.5px;
+    letter-spacing:0.8px;font-weight:600;margin-bottom:12px;}
+
+  #legend{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:25;
+    display:flex;gap:16px;flex-wrap:wrap;justify-content:center;
+    background:var(--panel);border:1px solid var(--stroke);border-radius:12px;
+    padding:9px 18px;backdrop-filter:blur(12px);font-size:11px;color:var(--muted);}
+  .lg{display:flex;align-items:center;gap:6px;}
+  .lg i{width:10px;height:10px;border-radius:3px;display:block;}
+
+  #hint{position:absolute;bottom:16px;right:18px;z-index:25;
+    font-size:11px;color:var(--muted);background:var(--panel);
+    border:1px solid var(--stroke);border-radius:10px;padding:8px 14px;backdrop-filter:blur(12px);}
+  #hint b{color:var(--cyan);}
+
+  #tooltip{position:absolute;z-index:40;pointer-events:none;padding:5px 10px;border-radius:7px;
+    background:rgba(0,20,35,0.92);border:1px solid var(--stroke);font-size:11.5px;
+    color:var(--cyan);display:none;white-space:nowrap;}
+
+  #loader{position:absolute;inset:0;z-index:100;background:var(--bg);
+    display:grid;place-items:center;transition:opacity .6s;}
+  #loader.hide{opacity:0;pointer-events:none;}
+  .ldr-inner{text-align:center;}
+  .ldr-ring{width:56px;height:56px;border:3px solid rgba(0,212,255,0.15);
+    border-top-color:var(--cyan);border-radius:50%;margin:0 auto 18px;
+    animation:spin 0.9s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ldr-inner p{font-size:12px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+
+  #errorBox{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    background:rgba(30,5,5,0.95);border:1px solid #ff4b4b;color:#ff8080;
+    padding:20px;border-radius:10px;font-family:monospace;font-size:12px;
+    display:none;z-index:200;max-width:80%;text-align:center;}
+
+  @media (max-width:760px){
+    #leftPanel{width:190px;top:66px;left:10px;padding:11px;}
+    #rightPanel{width:230px;right:10px;top:66px;}
+    #legend{display:none;} #hint{display:none;}
+  }
+
+/* Emergency analysis controls */
+.em-form{display:grid;gap:7px;margin-top:2px}
+.em-form label{font-size:10px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.em-form select{display:block;width:100%;margin-top:4px;padding:8px 9px;border-radius:8px;border:1px solid rgba(0,212,255,.22);background:#0b1623;color:var(--text);font:inherit;font-size:11px;outline:none}
+.em-form select:focus{border-color:var(--cyan)}
+.emergency-info{margin-top:10px;padding:10px;border:1px solid rgba(255,75,75,.25);border-radius:9px;background:rgba(255,75,75,.055)}
+.em-empty{font-size:10.5px;color:var(--muted);line-height:1.55;text-align:center}
+.em-empty span{font-size:9.5px}
+.em-status{font-size:10px;font-weight:700;letter-spacing:1px;color:#ff7777;display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.em-dot{width:7px;height:7px;border-radius:50%;background:#ff4b4b;box-shadow:0 0 9px #ff4b4b;animation:pulse 1s infinite}
+.em-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.em-grid div{display:flex;flex-direction:column;gap:2px}
+.em-grid span{font-size:9px;color:var(--muted)}
+.em-grid b{font-size:10.5px;color:#fff;line-height:1.2}
+.em-grid .risk-high{color:#ff6666}.em-grid .risk-medium{color:#ffd166}.em-grid .risk-low{color:#4dffb8}
+.em-route{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.07);font-size:9.5px;color:#4dffb8;line-height:1.45}
+.em-route strong{color:#dbe9f5;font-weight:600}
+
+.em-people{margin-top:6px;border-color:rgba(0,212,255,.18);background:rgba(0,212,255,.04)}
+
+/* ==========================================
+   RESQ3D IoT SENSOR MONITOR — Phase 3C
+   ========================================== */
+#iotPanel{
+  position:absolute;
+  right:18px;
+  bottom:58px;
+  width:300px;
+  z-index:35;
+  padding:12px 14px;
+  background:rgba(7,18,29,.96);
+  border:1px solid rgba(0,212,255,.28);
+  border-radius:14px;
+  box-shadow:0 14px 40px rgba(0,0,0,.38);
+  backdrop-filter:blur(12px);
+}
+.iot-title{font-size:11px;font-weight:800;letter-spacing:1.2px;color:#7bdcff;margin-bottom:9px}
+.iot-status{font-size:10px;padding:7px 9px;border-radius:8px;background:rgba(255,255,255,.055);margin-bottom:7px}
+.iot-card{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.065);font-size:10px}
+.iot-card span{color:#8298ad}
+.iot-card b{color:#eef6ff;text-align:right;font-weight:700}
+.iot-alert{margin-top:8px;padding:8px;border-radius:8px;text-align:center;font-size:10px;font-weight:800;letter-spacing:.4px}
+.iot-alert.safe{background:rgba(0,255,157,.09);color:#4dffb8}
+.iot-alert.warning{background:rgba(255,193,7,.10);color:#ffd166}
+.iot-alert.fire{background:rgba(255,59,48,.13);color:#ff7770;animation:iotPulse 1s infinite}
+@keyframes iotPulse{50%{box-shadow:0 0 16px rgba(255,59,48,.20)}}
+@media(max-width:760px){#iotPanel{right:10px;bottom:48px;width:240px}}
+
+/* Phase 3D - IoT history */
+.iot-history-title{margin-top:9px;margin-bottom:5px;color:#7bdcff;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
+.iot-history{max-height:105px;overflow:auto;border-radius:7px;background:rgba(255,255,255,.035);padding:3px}
+.iot-history-row{display:grid;grid-template-columns:1fr auto;gap:2px 6px;padding:5px 6px;border-bottom:1px solid rgba(255,255,255,.06);font-size:9px}
+.iot-history-row:last-child{border-bottom:0}
+.iot-history-row span{font-weight:800}
+.iot-history-row b{font-weight:600;color:#91a5b8}
+.iot-history-row small{grid-column:1/-1;color:#72879b;font-size:8px}
+.iot-reset{width:100%;margin-top:7px;padding:7px 8px;border:1px solid rgba(0,212,255,.3);border-radius:7px;background:rgba(0,212,255,.08);color:#8ce4ff;font-size:9px;font-weight:800;cursor:pointer}
+.iot-reset:hover{background:rgba(0,212,255,.15)}
+\n\n/* ==========================================\n   PHASE 4 — AI EMERGENCY RISK ENGINE\n   ========================================== */\n.ai-title{margin-top:10px;margin-bottom:6px;padding-top:9px;border-top:1px solid rgba(255,255,255,.07);color:#d3a7ff;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase}\n.ai-risk-row{display:flex;justify-content:space-between;gap:10px;padding:5px 0;font-size:10px}\n.ai-risk-row span{color:#8298ad}\n.ai-risk-row b{font-weight:800;color:#fff}\n.ai-level.low{color:#4dffb8!important}\n.ai-level.medium{color:#ffd166!important}\n.ai-level.high{color:#ff9b66!important}\n.ai-level.critical{color:#ff6666!important}\n.ai-recommendation{margin-top:5px;padding:7px 8px;border-radius:7px;background:rgba(164,92,255,.08);border:1px solid rgba(164,92,255,.18);color:#cdb7e8;font-size:9px;line-height:1.45}\n
+/* ==========================================
+   PHASE 5 - AI EVACUATION INTELLIGENCE
+   ========================================== */
+.ai-title {
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px solid rgba(0,212,255,.18);
+  color: #63d6ff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+.ai-risk-row {
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  padding:5px 0;
+  font-size:10px;
+}
+.ai-risk-row span { color:#91a4b8; }
+.ai-risk-row b { color:#eef4fb; text-align:right; }
+.ai-level.low { color:#4dffb8; }
+.ai-level.medium { color:#ffd166; }
+.ai-level.high { color:#ff9f43; }
+.ai-level.critical { color:#ff4d5d; }
+.ai-recommendation {
+  margin-top:6px;
+  padding:7px;
+  border-radius:7px;
+  background:rgba(0,212,255,.06);
+  color:#c7d5e3;
+  font-size:9px;
+  line-height:1.4;
+}
+
+/* PHASE 6/7 - Multi-sensor + Command Center */
+#commandPanel{position:fixed;right:14px;top:92px;width:265px;z-index:25;padding:12px;background:rgba(7,14,24,.96);border:1px solid rgba(255,80,80,.32);border-radius:12px;box-shadow:0 12px 34px rgba(0,0,0,.45);color:#edf6ff;font-family:Arial,sans-serif}
+.cmd-title{font-size:11px;font-weight:900;letter-spacing:1.1px;color:#ff8580;margin-bottom:9px}
+.cmd-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.cmd-grid>div{padding:7px;border-radius:7px;background:rgba(255,255,255,.045)}.cmd-grid span{display:block;color:#8298ad;font-size:8px}.cmd-grid b{font-size:14px}
+.cmd-section{margin-top:9px;padding-top:7px;border-top:1px solid rgba(255,255,255,.07);font-size:8px;font-weight:900;letter-spacing:1px;color:#8ddfff}
+.cmd-incident{margin-top:6px;padding:8px;border-radius:8px;font-size:10px;font-weight:900}.cmd-incident.safe{background:rgba(0,255,157,.08);color:#55ffbd}.cmd-incident.warning{background:rgba(255,193,7,.10);color:#ffd166}.cmd-incident.fire{background:rgba(255,59,48,.13);color:#ff7770;animation:iotPulse 1s infinite}.cmd-incident small{font-size:8px;line-height:1.5}
+.cmd-timeline{max-height:120px;overflow:auto;margin-top:5px;background:rgba(255,255,255,.025);border-radius:7px}.cmd-timeline>div{display:grid;grid-template-columns:auto 1fr;gap:2px 6px;padding:5px;border-bottom:1px solid rgba(255,255,255,.05);font-size:8px}.cmd-timeline b{font-weight:600;color:#b7c8d8}.cmd-timeline small{grid-column:1/-1;color:#6f8498}
+.cmd-actions{display:flex;gap:6px;margin-top:8px}.cmd-actions button{flex:1;padding:7px;border:1px solid rgba(255,100,100,.28);border-radius:7px;background:rgba(255,255,255,.04);color:#eaf5ff;font-size:8px;font-weight:900;cursor:pointer}.cmd-actions button:hover{background:rgba(255,255,255,.09)}
+@media(max-width:900px){#commandPanel{top:auto;bottom:58px;right:10px;width:245px}}
+
+/* PHASE 9 - INCIDENT ANALYTICS */
+#analyticsPanel{position:fixed;left:290px;bottom:58px;width:270px;z-index:24;padding:11px;background:rgba(7,14,24,.96);border:1px solid rgba(125,220,255,.25);border-radius:12px;box-shadow:0 12px 34px rgba(0,0,0,.42);color:#edf6ff;font-family:Arial,sans-serif}
+.p9-title{font-size:10px;font-weight:900;letter-spacing:1px;color:#8ddfff;margin-bottom:8px}.p9-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}.p9-grid>div{padding:6px;border-radius:7px;background:rgba(255,255,255,.045)}.p9-grid span{display:block;color:#8298ad;font-size:8px}.p9-grid b{font-size:13px}.p9-subtitle{margin-top:8px;padding-top:7px;border-top:1px solid rgba(255,255,255,.07);font-size:8px;font-weight:900;color:#8ddfff;letter-spacing:.8px}.p9-list{max-height:55px;overflow:auto;margin-top:4px}.p9-list div{display:flex;justify-content:space-between;font-size:8px;padding:3px 2px}.p9-list span{color:#8298ad}.p9-replay{margin-top:5px}.p9-replay input{width:100%}.p9-replay>div{display:flex;align-items:center;justify-content:space-between;gap:5px}.p9-replay span{font-size:8px;color:#a8bacb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.p9-replay button,.p10-actions button{padding:5px 7px;border:1px solid rgba(0,212,255,.25);border-radius:6px;background:rgba(0,212,255,.07);color:#dff7ff;font-size:8px;font-weight:800;cursor:pointer}
+/* PHASE 10 - OPERATIONS */
+#opsPanel{position:fixed;left:290px;top:92px;width:270px;z-index:24;padding:11px;background:rgba(7,14,24,.96);border:1px solid rgba(77,255,184,.22);border-radius:12px;box-shadow:0 12px 34px rgba(0,0,0,.42);color:#edf6ff;font-family:Arial,sans-serif}.p10-title{font-size:10px;font-weight:900;letter-spacing:1px;color:#55ffbd;margin-bottom:7px}.p10-health{padding:7px;border-radius:7px;background:rgba(255,255,255,.04);font-size:9px}.p10-nodes{max-height:100px;overflow:auto;margin-top:5px}.p10-nodes div{display:flex;justify-content:space-between;padding:4px 2px;border-bottom:1px solid rgba(255,255,255,.05);font-size:8px}.p10-nodes b.normal{color:#55ffbd}.p10-nodes b.alert{color:#ff7770}.p10-actions{display:flex;gap:5px;margin-top:7px}.p10-actions button{flex:1}.p10-actions button:hover{background:rgba(0,212,255,.15)}
+@media(max-width:900px){#analyticsPanel{left:10px;bottom:58px;width:245px}#opsPanel{left:10px;top:92px;width:245px}}
+
+/* =====================================================
+   RESQ3D VISUAL DEMO UPGRADE — CLEAN MAIN VIEW
+   ===================================================== */
+#topActions{margin-left:auto;display:flex;gap:6px;align-items:center;pointer-events:auto}
+.top-action{border:1px solid rgba(0,212,255,.28);background:rgba(7,18,29,.82);color:#cfeeff;border-radius:9px;padding:7px 10px;font-size:9px;font-weight:800;letter-spacing:.4px;cursor:pointer;backdrop-filter:blur(10px)}
+.top-action:hover,.top-action.active{background:rgba(0,212,255,.14);border-color:var(--cyan);color:#fff}
+#emergencyHUD{position:absolute;left:50%;top:70px;transform:translateX(-50%);z-index:40;min-width:430px;max-width:70vw;padding:9px 13px;border:1px solid rgba(255,70,70,.45);border-radius:12px;background:rgba(35,8,12,.92);box-shadow:0 0 28px rgba(255,50,40,.16);backdrop-filter:blur(12px);display:none}
+#emergencyHUD.active{display:block;animation:emHudPulse 1.4s infinite}
+@keyframes emHudPulse{50%{box-shadow:0 0 34px rgba(255,50,40,.28)}}
+.ehud-main{display:flex;align-items:center;justify-content:space-between;gap:16px}.ehud-title{color:#ff7770;font-weight:900;font-size:12px;letter-spacing:1px}.ehud-location{color:#fff;font-size:10px;font-weight:700}.ehud-grid{display:flex;gap:14px;margin-top:6px}.ehud-grid span{display:block;color:#a98d91;font-size:8px}.ehud-grid b{font-size:10px;color:#fff}.ehud-grid .safe{color:#55ffbd}.ehud-grid .critical{color:#ff5d67}
+#iotPanel{right:18px;top:92px;bottom:auto;width:270px;padding:10px 12px}
+#iotPanel .iot-history-title,#iotPanel .iot-history,#iotPanel .ai-recommendation,#iotPanel #iotReset{display:none}
+#iotPanel .ai-title{margin-top:7px;padding-top:7px;font-size:9px}
+#iotPanel .ai-risk-row{padding:3px 0}
+#commandPanel,#analyticsPanel,#opsPanel{display:none}
+#commandPanel.resq-open,#analyticsPanel.resq-open,#opsPanel.resq-open{display:block}
+#utilityMenu{position:absolute;right:18px;top:92px;z-index:38;width:150px;padding:9px;border:1px solid rgba(0,212,255,.22);border-radius:11px;background:rgba(7,14,24,.96);box-shadow:0 12px 34px rgba(0,0,0,.42);display:none}
+#utilityMenu.open{display:block}.utility-title{font-size:8px;color:#7bdcff;font-weight:900;letter-spacing:1px;margin-bottom:6px}.utility-btn{width:100%;padding:7px;margin-top:5px;border:1px solid rgba(255,255,255,.09);border-radius:7px;background:rgba(255,255,255,.035);color:#eaf5ff;font-size:9px;font-weight:800;cursor:pointer}.utility-btn:hover{background:rgba(0,212,255,.10)}
+/* Hide the decorative legend during emergency so the fire/people remain visually dominant. */
+body.resq-emergency #legend{opacity:.25;pointer-events:none}
+body.resq-emergency #hint{opacity:.35}
+/* Stronger emergency visuals */
+.resq-fire-marker{filter:drop-shadow(0 0 14px rgba(255,90,0,.85))}
+@media(max-width:1000px){#topActions{display:none}#emergencyHUD{min-width:300px;max-width:90vw}.ehud-grid{gap:8px;flex-wrap:wrap}#iotPanel{right:10px;width:240px}}
+/* PHASE 12 — FIREFIGHTER INCIDENT LINK */
+#phase12Alert{position:fixed;left:50%;bottom:64px;transform:translate(-50%,20px);z-index:70;display:flex;align-items:center;gap:12px;padding:10px 13px;background:rgba(38,9,13,.96);border:1px solid rgba(255,91,91,.55);border-radius:11px;box-shadow:0 12px 35px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:.25s;color:#fff;font-size:10px;font-weight:800}#phase12Alert.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}#p12Open{border:1px solid rgba(0,212,255,.4);background:rgba(0,212,255,.12);color:#bfefff;border-radius:7px;padding:7px 9px;font-size:9px;font-weight:900;cursor:pointer}#p12Open:hover{background:rgba(0,212,255,.23)}
+
+/* Phase 12 firefighter portal mode */
+body.portal-mode #leftPanel,body.portal-mode #rightPanel,body.portal-mode #iotPanel,body.portal-mode #utilityMenu,body.portal-mode #legend,body.portal-mode #hint{display:none!important}body.portal-mode #topActions{display:none!important}body.portal-mode #emergencyHUD{top:72px}
+
+.firefighter-btn{border-color:rgba(255,91,91,.55);background:rgba(80,10,15,.82);color:#ffd5d5}.firefighter-btn:hover,.firefighter-btn.active{background:rgba(255,70,70,.16);border-color:#ff6868;color:#fff}

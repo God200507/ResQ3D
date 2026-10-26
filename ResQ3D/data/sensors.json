@@ -1,0 +1,7 @@
+{
+  "SENSOR-G-SECURITY": {"device_id":"TINKERCAD-UNO-01","floor":0,"room":"GROUND_SECURITY","gas_value":85,"temperature":24.7,"gas_detected":false,"high_temperature":false,"fire_emergency":false},
+  "SENSOR-F1-LAB": {"device_id":"TINKERCAD-UNO-02","floor":1,"room":"F1_LAB_01","gas_value":85,"temperature":24.7,"gas_detected":false,"high_temperature":false,"fire_emergency":false},
+  "SENSOR-F2-LAB": {"device_id":"TINKERCAD-UNO-03","floor":2,"room":"F2_LAB_01","gas_value":85,"temperature":24.7,"gas_detected":false,"high_temperature":false,"fire_emergency":false},
+  "SENSOR-F3-IOT": {"device_id":"TINKERCAD-UNO-04","floor":3,"room":"F3_IOT_LAB","gas_value":85,"temperature":24.7,"gas_detected":false,"high_temperature":false,"fire_emergency":false},
+  "SENSOR-F4-RESEARCH": {"device_id":"TINKERCAD-UNO-05","floor":4,"room":"F4_PROJECT_LAB","gas_value":85,"temperature":24.7,"gas_detected":false,"high_temperature":false,"fire_emergency":false}
+}

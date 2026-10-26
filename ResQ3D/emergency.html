@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ResQ3D Emergency Portal</title>
+<link rel="stylesheet" href="./emergency.css">
+</head>
+<body>
+<header><div class="brand"><span class="logo">RQ</span><div><b>ResQ3D</b><small>FIREFIGHTER EMERGENCY PORTAL</small></div></div><div id="portalStatus">VERIFYING LINK...</div></header>
+<main>
+<section class="alert"><div><span class="eyebrow">🚨 ACTIVE INCIDENT</span><h1 id="title">Loading emergency...</h1><p id="meta">Please wait.</p></div><div class="risk" id="risk">---</div></section>
+<section class="layout">
+<div class="twin-card"><div class="card-head"><b>🏢 LIVE 3D DIGITAL TWIN</b><span id="incidentId">---</span></div><iframe id="twinFrame" title="ResQ3D digital twin"></iframe></div>
+<aside>
+<div class="card"><div class="card-head"><b>📍 INCIDENT</b></div><div id="incidentInfo" class="info"></div></div>
+<div class="card"><div class="card-head"><b>📷 CAMERA ACCESS</b><span id="camCount">0</span></div><div id="cameras" class="cameras"></div></div>
+<div class="card"><div class="card-head"><b>🧠 AI RESPONSE</b></div><div id="aiInfo" class="info"></div></div>
+</aside>
+</section>
+</main>
+<script type="module" src="./js/emergency_portal.js"></script>
+</body></html>
